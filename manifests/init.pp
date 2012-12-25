@@ -45,6 +45,17 @@
 #
 #   [*dashboard_config*]
 #     - The Dashboard configuration file
+#   [*dashboard_workers_service*]
+#     - The Dashboard workers init service
+#
+#   [*dashboard_workers_config*]
+#     - Default config file for the Dashboard workers service
+#
+#   [*dashboard_num_workers*]
+#     - Number of dashboard workers to spawn
+# 
+#   [*dashboard_workers_start*]
+#     - Enable the Dashboard init service
 #
 #   [*dashboard_root*]
 #     - The path to the Puppet Dashboard library
@@ -78,22 +89,26 @@
 #   puppet-dashboard.
 #
 class dashboard (
-  $dashboard_ensure         = $dashboard::params::dashboard_ensure,
-  $dashboard_user           = $dashboard::params::dashboard_user,
-  $dashboard_group          = $dashboard::params::dashboard_group,
-  $dashboard_password       = $dashboard::params::dashboard_password,
-  $dashboard_db             = $dashboard::params::dashboard_db,
-  $dashboard_charset        = $dashboard::params::dashboard_charset,
-  $dashboard_site           = $dashboard::params::dashboard_site,
-  $dashboard_port           = $dashboard::params::dashboard_port,
-  $dashboard_config         = $dashboard::params::dashboard_config,
-  $mysql_root_pw            = $dashboard::params::mysql_root_pw,
-  $passenger                = $dashboard::params::passenger,
-  $mysql_package_provider   = $dashboard::params::mysql_package_provider,
-  $ruby_mysql_package       = $dashboard::params::ruby_mysql_package,
-  $dashboard_config         = $dashboard::params::dashboard_config,
-  $dashboard_root           = $dashboard::params::dashboard_root,
-  $rack_version             = $dashboard::params::rack_version
+  $dashboard_ensure          = $dashboard::params::dashboard_ensure,
+  $dashboard_user            = $dashboard::params::dashboard_user,
+  $dashboard_group           = $dashboard::params::dashboard_group,
+  $dashboard_password        = $dashboard::params::dashboard_password,
+  $dashboard_db              = $dashboard::params::dashboard_db,
+  $dashboard_charset         = $dashboard::params::dashboard_charset,
+  $dashboard_site            = $dashboard::params::dashboard_site,
+  $dashboard_port            = $dashboard::params::dashboard_port,
+  $dashboard_config          = $dashboard::params::dashboard_config,
+  $dashboard_workers_service = $dashboard::params::dashboard_workers_service, 
+  $dashboard_workers_config  = $dashboard::params::dashboard_workers_config,
+  $dashboard_num_workers     = $dashboard::params::dashboard_num_workers,
+  $dashboard_workers_start   = $dashboard::params::dashboard_workers_start,
+  $mysql_root_pw             = $dashboard::params::mysql_root_pw,
+  $passenger                 = $dashboard::params::passenger,
+  $mysql_package_provider    = $dashboard::params::mysql_package_provider,
+  $ruby_mysql_package        = $dashboard::params::ruby_mysql_package,
+  $dashboard_config          = $dashboard::params::dashboard_config,
+  $dashboard_root            = $dashboard::params::dashboard_root,
+  $rack_version              = $dashboard::params::rack_version
 ) inherits dashboard::params {
 
   require mysql
