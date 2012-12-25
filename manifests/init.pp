@@ -127,7 +127,7 @@ class dashboard (
       file { 'dashboard_workers_config': 
         ensure =>  present,
         path => $dashboard_workers_config,
-        content => template("dashboard/workers.config.${::osfamily}.erb")
+        content => template("dashboard/workers.config.${::osfamily}.erb"),
         owner => '0',
         group => '0',
         mode => '0644',
