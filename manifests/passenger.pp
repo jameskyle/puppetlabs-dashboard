@@ -34,11 +34,16 @@ class dashboard::passenger (
   file { '/etc/init.d/puppet-dashboard':
     ensure => absent,
   }
-
-  file { 'dashboard_config':
-    ensure => absent,
-    path   => $dashboard_config,
+ 
+  # in debian, the dashboard workers config sources the main config. 
+  # so we need to keep it
+  if $::osfamily != 'Debian' {
+    file { 'dashboard_config':
+      ensure => absent,
+      path   => $dashboard_config,
+    }
   }
+
 
   apache::vhost { $dashboard_site:
     port     => $dashboard_port,

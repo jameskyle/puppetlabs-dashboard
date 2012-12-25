@@ -112,6 +112,37 @@ class dashboard (
       dashboard_config => $dashboard_config,
       dashboard_root   => $dashboard_root,
     }
+    # debian needs the configuration files for dashboard to start the 
+    # dashboard workers 
+    if $::osfamily == 'Debian' {
+      file { 'dashboard_config':
+        ensure  => present,
+        path    => $dashboard_config,
+        content => template("dashboard/config.${::osfamily}.erb"),
+        owner   => '0',
+        group   => '0',
+        mode    => '0644',
+        require => Package[$dashboard_package],
+      }
+      file { 'dashboard_workers_config': 
+        ensure =>  present,
+        path => $dashboard_workers_config,
+        content => template("dashboard/workers.config.${::osfamily}.erb")
+        owner => '0',
+        group => '0',
+        mode => '0644',
+        require => Package[$dashboard_package]
+      }
+      # enable the workers service
+      service { $dashboard_workers_service:
+        ensure     => running,
+        enable     => true,
+        hasrestart => true,
+        subscribe  => File['/etc/puppet-dashboard/database.yml'],
+        require    => Exec['db-migrate']
+      }
+
+    }
   } else {
     file { 'dashboard_config':
       ensure  => present,
